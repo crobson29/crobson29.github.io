@@ -4687,3 +4687,11 @@ input, select, textarea {
 		}
 
 	}
+
+			/* User-added*/
+
+			.skills-list{
+				text-align: center;
+				list-style-type: none;
+	
+			}
