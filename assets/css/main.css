@@ -169,6 +169,7 @@ input, select, textarea {
 
 	strong, b {
 		font-weight: 600;
+		font-size: 18pt;
 	}
 
 	em, i {
