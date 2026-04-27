@@ -1,0 +1,301 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QPWPMDJ7TP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+  gtag('config', 'G-QPWPMDJ7TP');
+</script>
+
+	<title>Chicago AirBnB Visualization</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<noscript>
+		<link rel="stylesheet" href="assets/css/noscript.css" />
+	</noscript>
+
+	<!-- Vega / Vega-Lite / vegaEmbed -->
+	<script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
+
+	<style>
+		/* Chart section spacing within the Massively post layout */
+		.chart-section {
+			margin: 3rem 0;
+			border-top: solid 2px #eeeeee;
+			padding-top: 2.5rem;
+		}
+		.chart-section h3 {
+			margin-bottom: 0.5rem;
+		}
+		.chart-section .chart-note {
+			font-size: 0.85rem;
+			color: #717981;
+			margin-bottom: 1.25rem;
+			font-style: italic;
+		}
+		.chart-container {
+			width: 100%;
+			overflow-x: auto;
+		}
+		/* Keep vegaEmbed action menu from breaking layout */
+		.vega-embed {
+			width: 100% !important;
+		}
+		.chart-insight {
+			background: #f5f5f5;
+			border-left: 4px solid #18bfef;
+			padding: 1rem 1.25rem;
+			margin-top: 1.25rem;
+			font-size: 0.9rem;
+		}
+		.chart-insight strong {
+			display: block;
+			margin-bottom: 0.25rem;
+		}
+	</style>
+</head>
+
+<body class="is-preload">
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Header -->
+		<header id="header">
+			<a href="index.html" class="logo">Charlie Robson</a>
+		</header>
+
+		<!-- Nav -->
+		<nav id="nav">
+			<ul class="links">
+				<li><a href="index.html">This is Me</a></li>
+				<li><a href="resume.html">Resume</a></li>
+				<li class="active"><a href="projects.html">projects</a></li>
+			</ul>
+			<ul class="icons">
+				<li><a href="https://linkedin.com/in/charlie-robson-3a0606160" class="icon brands fa-linkedin"><span
+							class="label">Linkedin</span></a></li>
+				<li><a href="https://github.com/crobson29" class="icon brands fa-github"><span
+							class="label">GitHub</span></a></li>
+				<li><a href='https://public.tableau.com/app/profile/charlie.robson'><iconify-icon
+							icon="ion:logo-tableau"></iconify-icon></a></li>
+			</ul>
+		</nav>
+
+		<!-- Main -->
+		<div id="main">
+
+			<!-- Post -->
+			<section class="post">
+				<header class="major">
+					<span class="date">April 26, 2025</span>
+					<h1>Chicago AirBnB<br />Price &amp; Value Analysis</h1>
+					<p>An interactive exploration of 7,300+ Chicago AirBnB listings built with Python and Altair.
+						The project answers three questions a visitor would ask: which neighborhoods are affordable,
+						how room type shapes the price you pay, and where the best-value listings hide
+						(cheap <em>and</em> highly rated).</p>
+				</header>
+
+				<p>Data comes from <a href="https://insideairbnb.com/chicago/" target="_blank">Inside AirBnB</a>,
+				scraped September 2025. After cleaning — removing the ~5% of listings priced above $500/night
+				that skew the market — 7,324 listings remain across 76 Chicago neighborhoods.
+				All four charts below are fully interactive: hover for details, click legends to filter,
+				and drag to brush-select regions.</p>
+
+				<!-- ── Chart 1 ─────────────────────────────────────────────── -->
+				<div class="chart-section">
+					<h3>Median Price by Neighborhood</h3>
+					<p class="chart-note">Top 25 neighborhoods by listing count, sorted by median nightly price.
+						Dashed line = city-wide median ($144). Hover a bar for exact figures.</p>
+					<div class="chart-container">
+						<div id="chart-neighborhood"></div>
+					</div>
+					<div class="chart-insight">
+						<strong>Finding</strong>
+						Near North Side, Loop, and Near South Side command a 40–80% premium over the city median,
+						reflecting lakefront access and proximity to major attractions. Irving Park, Avondale, and
+						Bridgeport sit well below median — strong options for visitors who don't need to be
+						downtown every day.
+					</div>
+				</div>
+
+				<!-- ── Chart 2 ─────────────────────────────────────────────── -->
+				<div class="chart-section">
+					<h3>Price Distribution by Room Type</h3>
+					<p class="chart-note">Box = interquartile range · Whiskers = 1.5&times;IQR · Dots = outliers.
+						Click a room type in the legend to highlight it.</p>
+					<div class="chart-container">
+						<div id="chart-roomtype"></div>
+					</div>
+					<div class="chart-insight">
+						<strong>Finding</strong>
+						Entire home and hotel listings have similar medians (~$155–$165), but entire-home listings
+						span a much wider range — budget apartments under $80 up to premium units above $400.
+						Private rooms reliably come in around $80/night, making them the best option for solo
+						travelers on a budget.
+					</div>
+				</div>
+
+				<!-- ── Chart 3 ─────────────────────────────────────────────── -->
+				<div class="chart-section">
+					<h3>Price vs. Review Score — Finding the Sweet Spot</h3>
+					<p class="chart-note">Each dot is one listing. Size = reviews per month (popularity).
+						The green zone marks listings below the city median <em>and</em> above 4.7 stars.
+						Click a room type in the legend to isolate it.</p>
+					<div class="chart-container">
+						<div id="chart-value"></div>
+					</div>
+					<div class="chart-insight">
+						<strong>Finding</strong>
+						The sweet-spot quadrant is densely populated — hundreds of listings are both cheaper
+						than the median and rated above 4.7 stars. Large dots (high reviews/month) in the
+						green zone indicate listings with a proven track record, not just a handful of
+						lucky early reviews.
+					</div>
+				</div>
+
+				<!-- ── Chart 4 ─────────────────────────────────────────────── -->
+				<div class="chart-section">
+					<h3>Availability vs. Price</h3>
+					<p class="chart-note">Drag to brush-select any region of the scatter plot — the histogram
+						below updates to show the price distribution of just those listings.</p>
+					<div class="chart-container">
+						<div id="chart-avail"></div>
+					</div>
+					<div class="chart-insight">
+						<strong>Finding</strong>
+						There is no strong negative correlation between availability and price — hosts do not
+						systematically discount for higher vacancy. Premium listings (&gt;$300/night) cluster
+						at low-to-moderate availability, consistent with high-demand properties that fill
+						quickly without needing to drop their price.
+					</div>
+				</div>
+
+				<ul class="actions special">
+					<li><a href="https://github.com/crobson29" class="button">View on GitHub</a></li>
+				</ul>
+
+			</section>
+
+		</div>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<section>
+				<form method="post" action="#">
+					<div class="fields">
+						<div class="field">
+							<label for="name">Name</label>
+							<input type="text" name="name" id="name" />
+						</div>
+						<div class="field">
+							<label for="email">Email</label>
+							<input type="text" name="email" id="email" />
+						</div>
+						<div class="field">
+							<label for="message">Message</label>
+							<textarea name="message" id="message" rows="3"></textarea>
+						</div>
+					</div>
+					<ul class="actions">
+						<li><input type="submit" value="Send Message" /></li>
+					</ul>
+				</form>
+			</section>
+			<section class="split contact">
+				<section>
+					<h3>Phone</h3>
+					<p><a href="#">(918) 607-0167</a></p>
+				</section>
+				<section>
+					<h3>Email</h3>
+					<p><a href="#">crobson29@gmail.com</a></p>
+				</section>
+				<section>
+					<h3>Social</h3>
+					<ul class="icons alt">
+						<li><a href="https://linkedin.com/in/charlie-robson-3a0606160"
+								class="icon brands fa-linkedin"><span class="label">Linkedin</span></a></li>
+						<li><a href="https://github.com/crobson29" class="icon brands fa-github"><span
+									class="label">GitHub</span></a></li>
+					</ul>
+				</section>
+			</section>
+		</footer>
+
+		<!-- Copyright -->
+		<div id="copyright">
+			<ul>
+				<li>&copy; Charlie Robson</li>
+				<li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+			</ul>
+		</div>
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+	<script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
+
+	<script>
+		// Vega-Lite resolves data URLs relative to the page, not the spec file.
+		// This walks the spec tree and prefixes every relative data URL with the
+		// directory the spec lives in, so the browser fetches from the right place.
+		function fixDataUrls(node, prefix) {
+			if (Array.isArray(node)) {
+				node.forEach(function(item) { fixDataUrls(item, prefix); });
+			} else if (node !== null && typeof node === 'object') {
+				if (typeof node.url === 'string' && !/^https?:\/\//.test(node.url)) {
+					node.url = prefix + node.url;
+				}
+				Object.values(node).forEach(function(val) { fixDataUrls(val, prefix); });
+			}
+		}
+
+		async function loadChart(containerId, specPath, dataPrefix) {
+			const el = document.getElementById(containerId);
+			try {
+				const resp = await fetch(specPath);
+				if (!resp.ok) throw new Error('HTTP ' + resp.status);
+				const spec = await resp.json();
+				fixDataUrls(spec, dataPrefix);
+				await vegaEmbed('#' + containerId, spec, {
+					actions: { export: true, source: false, compiled: false, editor: false },
+					renderer: 'svg',
+				});
+			} catch (e) {
+				el.innerHTML = '<p style="color:#c0392b;font-size:.875rem">Could not load chart (<code>'
+					+ specPath + '</code>): ' + e.message + '</p>';
+			}
+		}
+
+		var prefix = 'chicago_airbnb/';
+		Promise.all([
+			loadChart('chart-neighborhood', prefix + 'neighborhood_price.json',  prefix),
+			loadChart('chart-roomtype',     prefix + 'room_type_price.json',     prefix),
+			loadChart('chart-value',        prefix + 'value_scatter.json',       prefix),
+			loadChart('chart-avail',        prefix + 'availability_price.json',  prefix),
+		]);
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+room_type,q1,median,q3,lower,upper
+Entire home/apt,117.0,168.0,238.0,13.0,419.0
+Hotel room,220.25,251.5,367.5,213.0,476.0
+Private room,43.0,60.0,87.0,13.0,153.0
+Shared room,22.0,38.0,51.0,20.0,80.0
